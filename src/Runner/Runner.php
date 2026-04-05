@@ -13,6 +13,7 @@ use Mcp\Shared\McpError;
 use Mcp\Types\GetPromptRequestParams;
 use Mcp\Types\GetPromptResult;
 use Mcp\Types\ListPromptsResult;
+use Mcp\Types\ListToolsResult;
 use Mcp\Types\Prompt as McpPrompt;
 use Mcp\Types\PromptArgument as McpPromptArgument;
 use Mcp\Types\PromptMessage;
@@ -38,6 +39,9 @@ final readonly class Runner
         $server = new Server($this->name);
         $server->registerHandler('prompts/list', $this->actionPromptsList(...));
         $server->registerHandler('prompts/get', $this->actionPromptsGet(...));
+        
+        // Stub for clients that ignore server capabilities and request tools anyway
+        $server->registerHandler('tools/list', static fn() => new ListToolsResult([]));
 
         new ServerRunner(
             $server,
