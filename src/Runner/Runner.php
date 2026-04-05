@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Vjik\MyPromptsMcp\Runner;
 
-use InvalidArgumentException;
 use Mcp\Server\InitializationOptions;
+use Mcp\Server\McpServerException;
 use Mcp\Server\Server;
 use Mcp\Server\ServerRunner;
 use Mcp\Types\GetPromptRequestParams;
@@ -27,9 +27,8 @@ final readonly class Runner
     public function __construct(
         private string $name,
         private string $version,
-        private array $prompts
-    ) {
-    }
+        private array $prompts,
+    ) {}
 
     public function run(): void
     {
@@ -45,7 +44,7 @@ final readonly class Runner
                 new ServerCapabilities(
                     prompts: new ServerPromptsCapability(true),
                 ),
-            )
+            ),
         )->run();
     }
 
@@ -65,7 +64,7 @@ final readonly class Runner
     private function actionPromptsGet(GetPromptRequestParams $params): GetPromptResult
     {
         $prompt = $this->prompts[$params->name]
-            ?? throw new InvalidArgumentException("Unknown prompt: {$params->name}");
+            ?? throw McpServerException::unknownPrompt($params->name);
 
         return new GetPromptResult(
             [
