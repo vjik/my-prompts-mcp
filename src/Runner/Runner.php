@@ -56,6 +56,7 @@ final readonly class Runner
             $mcpPrompts[] = new McpPrompt(
                 name: $prompt->name,
                 description: $prompt->description,
+                title: $prompt->title,
             );
         }
         return new ListPromptsResult($mcpPrompts);

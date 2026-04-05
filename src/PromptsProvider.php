@@ -37,6 +37,7 @@ final class PromptsProvider
             if ($name !== null) {
                 $this->prompts[$name] = new Prompt(
                     name: $name,
+                    title: $this->parseNonEmptyStringOrNull($document->matter('title')),
                     description: $this->parseNonEmptyStringOrNull($document->matter('description')),
                     content: $document->body(),
                 );

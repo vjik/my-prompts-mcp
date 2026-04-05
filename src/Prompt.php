@@ -11,10 +11,12 @@ final readonly class Prompt
 {
     /**
      * @param non-empty-string $name
+     * @param non-empty-string|null $title
      * @param non-empty-string|null $description
      */
     public function __construct(
         public string $name,
+        public ?string $title,
         public ?string $description,
         public string $content,
     ) {}
