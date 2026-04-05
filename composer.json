@@ -26,12 +26,12 @@
     ],
     "require": {
         "php": "^8.5",
-        "mcp/sdk": "^0.4.0",
-        "spatie/yaml-front-matter": "^2.1"
+        "logiscape/mcp-sdk-php": "^1.5.1",
+        "spatie/yaml-front-matter": "^2.1.1"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.9.1",
-        "buggregator/trap": "^1.15",
+        "buggregator/trap": "^1.15.1",
         "phpstan/phpstan": "^2.1.46"
     },
     "autoload": {

@@ -20,7 +20,7 @@ final class PromptsProvider
     ) {}
 
     /**
-     * @return Prompt[]
+     * @return array<non-empty-string, Prompt>
      */
     public function getPrompts(): array
     {
