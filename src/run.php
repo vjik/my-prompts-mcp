@@ -13,7 +13,11 @@ $builder = Server::builder();
 
 $provider = new Vjik\MyPromptsMcp\PromptsProvider($config->path);
 foreach ($provider->getPrompts() as $prompt) {
-    $builder->addPrompt($prompt->handler, $prompt->name);
+    trap($prompt->content);
+    $builder->addPrompt(
+        static fn() => ['user' => $prompt->content],
+        $prompt->name,
+    );
 }
 
 $server = $builder

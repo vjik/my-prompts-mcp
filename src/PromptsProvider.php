@@ -4,29 +4,45 @@ declare(strict_types=1);
 
 namespace Vjik\MyPromptsMcp;
 
-final readonly class PromptsProvider
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+
+use function is_scalar;
+
+final class PromptsProvider
 {
+    /**
+     * @var array<non-empty-string, Prompt>|null
+     */
+    private ?array $prompts = null;
+
     public function __construct(
-        private string $path,
+        private readonly string $path,
     ) {}
 
     /**
-     * @return list<Prompt>
+     * @return Prompt[]
      */
     public function getPrompts(): array
     {
-        $prompts = [];
-
-        foreach ($this->getFiles() as $file) {
-            $prompts[] = new Prompt(
-                name: pathinfo($file, PATHINFO_FILENAME),
-                handler: static function () use ($file): array {
-                    return ['user' => file_get_contents($file)];
-                },
-            );
+        if ($this->prompts !== null) {
+            return $this->prompts;
         }
 
-        return $prompts;
+        $this->prompts = [];
+        foreach ($this->getFiles() as $file) {
+            $document = YamlFrontMatter::parseFile($file);
+            $name = $this->parseNonEmptyStringOrNull($document->matter('name'))
+                ?? $this->parseNonEmptyStringOrNull(pathinfo($file, PATHINFO_FILENAME))
+                ?? null;
+            if ($name !== null) {
+                $this->prompts[$name] = new Prompt(
+                    name: $name,
+                    description: $this->parseNonEmptyStringOrNull($document->matter('description')),
+                    content: $document->body(),
+                );
+            }
+        }
+        return $this->prompts;
     }
 
     /**
@@ -35,5 +51,18 @@ final readonly class PromptsProvider
     private function getFiles(): array
     {
         return glob($this->path . '/*.md') ?: [];
+    }
+
+    /**
+     * @param mixed $value
+     * @return non-empty-string|null
+     */
+    private function parseNonEmptyStringOrNull(mixed $value): ?string
+    {
+        if (!is_scalar($value)) {
+            return null;
+        }
+        $value = (string) $value;
+        return $value === '' ? null : $value;
     }
 }
