@@ -6,6 +6,7 @@ namespace Vjik\MyPromptsMcp;
 
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
+use function is_array;
 use function is_scalar;
 
 final class PromptsProvider
@@ -40,6 +41,7 @@ final class PromptsProvider
                     title: $this->parseNonEmptyStringOrNull($document->matter('title')),
                     description: $this->parseNonEmptyStringOrNull($document->matter('description')),
                     content: $document->body(),
+                    arguments: $this->parseArguments($document->matter('arguments')),
                 );
             }
         }
@@ -52,6 +54,40 @@ final class PromptsProvider
     private function getFiles(): array
     {
         return glob($this->path . '/*.md') ?: [];
+    }
+
+    /**
+     * @return array<non-empty-string, PromptArgument>
+     */
+    private function parseArguments(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $arguments = [];
+        foreach ($value as $item) {
+            if (is_scalar($item)) {
+                $name = $this->parseNonEmptyStringOrNull($item);
+                if ($name !== null) {
+                    $arguments[$name] = new PromptArgument(name: $name, description: null, required: false);
+                }
+                continue;
+            }
+            if (!is_array($item)) {
+                continue;
+            }
+            $name = $this->parseNonEmptyStringOrNull($item['name'] ?? null);
+            if ($name === null) {
+                continue;
+            }
+            $arguments[$name] = new PromptArgument(
+                name: $name,
+                description: $this->parseNonEmptyStringOrNull($item['description'] ?? null),
+                required: (bool) ($item['required'] ?? false),
+            );
+        }
+        return $arguments;
     }
 
     /**
