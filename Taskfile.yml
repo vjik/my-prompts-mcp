@@ -1,0 +1,11 @@
+version: '3'
+
+vars:
+  BOX: docker run --rm -v $(pwd):/app -w /app --user $(id -u):$(id -g) boxproject/box:4.7.0
+
+tasks:
+  default: task --list
+
+  build-phar:
+    desc: Build PHAR archive
+    cmd: "{{.BOX}} compile"
