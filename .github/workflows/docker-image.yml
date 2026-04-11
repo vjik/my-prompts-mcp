@@ -11,7 +11,7 @@ on:
 name: docker-image
 
 env:
-  IMAGE: ghcr.io/yiisoft-contrib/my-prompts-mcp-dev
+  IMAGE: ghcr.io/vjik/my-prompts-mcp-dev
   VERSION: 1
 
 jobs:
