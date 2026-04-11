@@ -36,10 +36,10 @@ final readonly class Runner
 
     public function run(): void
     {
-        $server = new Server($this->name);
+        $server = new Server($this->name, version: $this->version);
         $server->registerHandler('prompts/list', $this->actionPromptsList(...));
         $server->registerHandler('prompts/get', $this->actionPromptsGet(...));
-        
+
         // Stub for clients that ignore server capabilities and request tools anyway
         $server->registerHandler('tools/list', static fn() => new ListToolsResult([]));
 

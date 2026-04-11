@@ -24,6 +24,10 @@ tasks:
     desc: Build Docker image
     cmd: docker build -t {{.DOCKER_IMAGE}} .
 
+  cs-fix:
+    desc: Run PHP CS Fixer
+    cmd: docker run --rm -v $(pwd):/app --user $(id -u):$(id -g) {{.DOCKER_IMAGE}} vendor/bin/php-cs-fixer fix
+
   composer:
     desc: Run Composer command
     cmd: docker run --rm -v $(pwd):/app --user $(id -u):$(id -g) {{.DOCKER_IMAGE}} composer {{.CLI_ARGS}}
