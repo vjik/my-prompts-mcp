@@ -34,6 +34,10 @@ tasks:
     desc: Run Docker shell
     cmd: docker run {{.DOCKER_RUN_PARAMS}} -it {{.DOCKER_IMAGE}} sh
 
+  lint-dockerfile:
+    desc: Lint Dockerfile
+    cmd: docker run --rm -i hadolint/hadolint < Dockerfile
+
   cs-fix:
     desc: Run PHP CS Fixer
     cmd: docker {{.DOCKER_RUN}}" vendor/bin/php-cs-fixer fix
