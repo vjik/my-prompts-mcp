@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94c47d0cb9970296d49af5c75f45ac7b",
+    "content-hash": "cb43280646a12a7ff26e0e172a90a08b",
     "packages": [
         {
             "name": "logiscape/mcp-sdk-php",
-            "version": "v1.5.1",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/logiscape/mcp-sdk-php.git",
-                "reference": "e2b45a3ac0806a592b0bb155b683fd26f33ffa4b"
+                "reference": "d6f2a39605ed67d3e1b6b29b4c714f57bdafd704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/logiscape/mcp-sdk-php/zipball/e2b45a3ac0806a592b0bb155b683fd26f33ffa4b",
-                "reference": "e2b45a3ac0806a592b0bb155b683fd26f33ffa4b",
+                "url": "https://api.github.com/repos/logiscape/mcp-sdk-php/zipball/d6f2a39605ed67d3e1b6b29b4c714f57bdafd704",
+                "reference": "d6f2a39605ed67d3e1b6b29b4c714f57bdafd704",
                 "shasum": ""
             },
             "require": {
@@ -47,9 +47,9 @@
             "description": "Model Context Protocol SDK for PHP",
             "support": {
                 "issues": "https://github.com/logiscape/mcp-sdk-php/issues",
-                "source": "https://github.com/logiscape/mcp-sdk-php/tree/v1.5.1"
+                "source": "https://github.com/logiscape/mcp-sdk-php/tree/v1.6.0"
             },
-            "time": "2026-03-23T07:10:32+00:00"
+            "time": "2026-04-10T21:48:18+00:00"
         },
         {
             "name": "psr/log",

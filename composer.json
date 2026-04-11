@@ -26,7 +26,7 @@
     ],
     "require": {
         "php": "^8.5",
-        "logiscape/mcp-sdk-php": "^1.5.1",
+        "logiscape/mcp-sdk-php": "^1.6.0",
         "spatie/yaml-front-matter": "^2.1.1"
     },
     "require-dev": {
