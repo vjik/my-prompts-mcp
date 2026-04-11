@@ -2,32 +2,38 @@ version: '3'
 
 vars:
   DOCKER_IMAGE: my-prompts-mcp
+  DOCKER_RUN_PARAMS: --rm -v $(pwd):/app --user $(id -u):$(id -g)
+  DOCKER_RUN: run {{.DOCKER_RUN_PARAMS}} {{.DOCKER_IMAGE}}
 
 tasks:
   default: task --list
 
   build-phar:
     desc: Build PHAR archive
-    cmd: docker run --rm -v $(pwd):/app --user $(id -u):$(id -g) {{.DOCKER_IMAGE}} box compile
+    cmd: docker {{.DOCKER_RUN}} box compile
 
   build-binary:
     desc: Build binary file
     cmds:
       - task: build-phar
-      - cmd: docker run --rm -v $(pwd):/app --user $(id -u):$(id -g) {{.DOCKER_IMAGE}}
+      - cmd: docker {{.DOCKER_RUN}}
           spc micro:combine
-            --with-micro=/builder/buildroot/bin/micro.sfx
-            --output=/app/build/my-prompts-mcp
-            /app/build/my-prompts-mcp.phar
+          --with-micro=/builder/buildroot/bin/micro.sfx
+          --output=/app/build/my-prompts-mcp
+          /app/build/my-prompts-mcp.phar
 
   build-docker-image:
     desc: Build Docker image
     cmd: docker build -t {{.DOCKER_IMAGE}} .
 
+  docker-shell:
+    desc: Run Docker shell
+    cmd: docker run {{.DOCKER_RUN_PARAMS}} -it {{.DOCKER_IMAGE}} sh
+
   cs-fix:
     desc: Run PHP CS Fixer
-    cmd: docker run --rm -v $(pwd):/app --user $(id -u):$(id -g) {{.DOCKER_IMAGE}} vendor/bin/php-cs-fixer fix
+    cmd: docker {{.DOCKER_RUN}}" vendor/bin/php-cs-fixer fix
 
   composer:
     desc: Run Composer command
-    cmd: docker run --rm -v $(pwd):/app --user $(id -u):$(id -g) {{.DOCKER_IMAGE}} composer {{.CLI_ARGS}}
+    cmd: docker {{.DOCKER_RUN}} composer {{.CLI_ARGS}}
