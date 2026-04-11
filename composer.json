@@ -1,6 +1,6 @@
 {
     "name": "vjik/my-prompts-mcp",
-    "description": "MCP server that provides user prompts",
+    "description": "Lightweight MCP server for providing user prompts defined in Markdown with argument support",
     "license": "BSD-3-Clause",
     "type": "project",
     "authors": [
@@ -25,10 +25,13 @@
         }
     ],
     "require": {
-        "php": "^8.5"
+        "php": "^8.5",
+        "logiscape/mcp-sdk-php": "^1.6.0",
+        "spatie/yaml-front-matter": "^2.1.1"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.9.1",
+        "buggregator/trap": "^1.15.2",
         "phpstan/phpstan": "^2.1.46"
     },
     "autoload": {
@@ -38,7 +41,8 @@
     },
     "config": {
         "allow-plugins": {
-            "bamarni/composer-bin-plugin": true
+            "bamarni/composer-bin-plugin": true,
+            "php-http/discovery": false
         },
         "bump-after-update": true,
         "sort-packages": true

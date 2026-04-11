@@ -1,0 +1,105 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Vjik\MyPromptsMcp;
+
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+
+use function is_array;
+use function is_scalar;
+
+final class PromptsProvider
+{
+    /**
+     * @var array<non-empty-string, Prompt>|null
+     */
+    private ?array $prompts = null;
+
+    public function __construct(
+        private readonly string $path,
+    ) {}
+
+    /**
+     * @return array<non-empty-string, Prompt>
+     */
+    public function getPrompts(): array
+    {
+        if ($this->prompts !== null) {
+            return $this->prompts;
+        }
+
+        $this->prompts = [];
+        foreach ($this->getFiles() as $file) {
+            $document = YamlFrontMatter::parseFile($file);
+            $name = $this->parseNonEmptyStringOrNull($document->matter('name'))
+                ?? $this->parseNonEmptyStringOrNull(pathinfo($file, PATHINFO_FILENAME))
+                ?? null;
+            if ($name !== null) {
+                $this->prompts[$name] = new Prompt(
+                    name: $name,
+                    title: $this->parseNonEmptyStringOrNull($document->matter('title')),
+                    description: $this->parseNonEmptyStringOrNull($document->matter('description')),
+                    content: $document->body(),
+                    arguments: $this->parseArguments($document->matter('arguments')),
+                );
+            }
+        }
+        return $this->prompts;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getFiles(): array
+    {
+        return glob($this->path . '/*.md') ?: [];
+    }
+
+    /**
+     * @return array<non-empty-string, PromptArgument>
+     */
+    private function parseArguments(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $arguments = [];
+        foreach ($value as $item) {
+            if (is_scalar($item)) {
+                $name = $this->parseNonEmptyStringOrNull($item);
+                if ($name !== null) {
+                    $arguments[$name] = new PromptArgument(name: $name, description: null, required: false);
+                }
+                continue;
+            }
+            if (!is_array($item)) {
+                continue;
+            }
+            $name = $this->parseNonEmptyStringOrNull($item['name'] ?? null);
+            if ($name === null) {
+                continue;
+            }
+            $arguments[$name] = new PromptArgument(
+                name: $name,
+                description: $this->parseNonEmptyStringOrNull($item['description'] ?? null),
+                required: (bool) ($item['required'] ?? false),
+            );
+        }
+        return $arguments;
+    }
+
+    /**
+     * @param mixed $value
+     * @return non-empty-string|null
+     */
+    private function parseNonEmptyStringOrNull(mixed $value): ?string
+    {
+        if (!is_scalar($value)) {
+            return null;
+        }
+        $value = (string) $value;
+        return $value === '' ? null : $value;
+    }
+}
