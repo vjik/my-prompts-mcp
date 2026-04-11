@@ -1,6 +1,6 @@
 {
     "name": "vjik/my-prompts-mcp",
-    "description": "MCP server that provides user prompts",
+    "description": "Lightweight MCP server for providing user prompts defined in Markdown with argument support",
     "license": "BSD-3-Clause",
     "type": "project",
     "authors": [
