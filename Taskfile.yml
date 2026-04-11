@@ -16,11 +16,15 @@ tasks:
     desc: Build binary file
     cmds:
       - task: build-phar
-      - cmd: docker {{.DOCKER_RUN}}
+      - cmd: mkdir -p runtime/static-php-cli
+      - cmd: docker run
+          {{.DOCKER_RUN_PARAMS}}
+          --workdir=/app/runtime/static-php-cli
+          {{.DOCKER_IMAGE}}
           spc micro:combine
-          --with-micro=/builder/buildroot/bin/micro.sfx
-          --output=/app/build/my-prompts-mcp
-          /app/build/my-prompts-mcp.phar
+            --with-micro=/builder/buildroot/bin/micro.sfx
+            --output=/app/build/my-prompts-mcp
+            /app/build/my-prompts-mcp.phar
 
   build-docker-image:
     desc: Build Docker image
