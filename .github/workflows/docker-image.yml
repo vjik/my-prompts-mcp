@@ -12,7 +12,6 @@ name: docker-image
 
 env:
   IMAGE: ghcr.io/vjik/my-prompts-mcp-dev
-  VERSION: 1
 
 jobs:
   build:
@@ -44,7 +43,6 @@ jobs:
           labels: |
             org.opencontainers.image.description=Docker image for development of My Prompts MCP.
             org.opencontainers.image.title=my-prompts-mcp-dev
-            org.opencontainers.image.version=${{ env.VERSION }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -54,7 +52,7 @@ jobs:
         with:
           context: .
           push: true # ${{ github.event_name == 'push' }}
-          tags: ${{ env.IMAGE }}:${{ env.VERSION }}
+          tags: ${{ env.IMAGE }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
