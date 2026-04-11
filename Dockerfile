@@ -1,7 +1,9 @@
+#hadolint global ignore=DL3059
 FROM php:8.5.4-cli-alpine3.22
 
 # Dependencies
-RUN apk add git linux-headers
+# hadolint ignore=DL3018
+RUN apk add --no-cache git linux-headers
 
 # PHP extensions
 RUN docker-php-ext-install sockets
@@ -14,6 +16,7 @@ RUN curl -Lf -o /usr/local/bin/box "https://github.com/box-project/box/releases/
     && chmod +x /usr/local/bin/box
 
 # static-php-cli
+# hadolint ignore=DL3003
 RUN mkdir -p /build-tools/static-php-cli \
     && cd /build-tools/static-php-cli \
     && git clone https://github.com/crazywhalecc/static-php-cli.git --depth=1 . \
@@ -22,6 +25,7 @@ RUN mkdir -p /build-tools/static-php-cli \
     && ln -s /build-tools/static-php-cli/bin/spc /usr/local/bin/spc
 
 # Prepare static-php-cli
+# hadolint ignore=DL3003
 RUN mkdir /builder \
     && cd /builder \
     && spc download \

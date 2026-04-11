@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  DOCKER_IMAGE: my-prompts-mcp
+  DOCKER_IMAGE: ghcr.io/vjik/my-prompts-mcp-dev
   DOCKER_RUN_PARAMS: --rm -v $(pwd):/app --user $(id -u):$(id -g)
   DOCKER_RUN: run {{.DOCKER_RUN_PARAMS}} {{.DOCKER_IMAGE}}
 
@@ -34,9 +34,13 @@ tasks:
     desc: Run Docker shell
     cmd: docker run {{.DOCKER_RUN_PARAMS}} -it {{.DOCKER_IMAGE}} sh
 
+  lint-dockerfile:
+    desc: Lint Dockerfile
+    cmd: docker run --rm -i hadolint/hadolint < Dockerfile
+
   cs-fix:
     desc: Run PHP CS Fixer
-    cmd: docker {{.DOCKER_RUN}}" vendor/bin/php-cs-fixer fix
+    cmd: docker {{.DOCKER_RUN}} vendor/bin/php-cs-fixer fix
 
   composer:
     desc: Run Composer command
