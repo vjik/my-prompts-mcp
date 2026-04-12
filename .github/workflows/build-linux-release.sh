@@ -27,7 +27,7 @@ spc build --build-micro 'phar'
 
 # Build PHAR
 cd /app
-composer install --no-dev --no-plugins --optimize-autoloader
+composer install --no-dev --optimize-autoloader
 box compile
 
 # Combine binary

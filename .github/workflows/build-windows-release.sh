@@ -13,7 +13,7 @@ curl -Lf -o "$BOX" https://github.com/box-project/box/releases/download/4.7.0/bo
 mkdir -p "$SPC_DIR"
 cd "$SPC_DIR"
 git clone https://github.com/crazywhalecc/static-php-cli.git --depth=1 .
-composer install
+composer install --no-dev
 
 # Build micro.sfx
 mkdir -p "$BUILDER_DIR"
@@ -24,7 +24,7 @@ cd "$BUILDER_DIR"
 
 # Build PHAR
 cd "$GITHUB_WORKSPACE"
-composer install --no-dev --no-plugins --optimize-autoloader
+composer install --no-dev --optimize-autoloader
 php "$BOX" compile
 
 # Combine binary
