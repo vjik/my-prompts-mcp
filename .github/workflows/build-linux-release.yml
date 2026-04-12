@@ -28,4 +28,4 @@ jobs:
       - name: Upload binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "test-tag" build/my-prompts-mcp#my-prompts-mcp-linux-${{ matrix.arch }}
+        run: gh release upload "test-tag" build/my-prompts-mcp#my-prompts-mcp-${{ github.event.release.tag_name }}-linux-${{ matrix.arch }}
