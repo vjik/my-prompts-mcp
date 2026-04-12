@@ -25,14 +25,17 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 
-      - name: Set binary name
+      - name: Set a binary name
         run: echo "BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-linux-${{ matrix.arch }}" >> $GITHUB_ENV
 
       - name: Build binary
-        env:
-          BINARY_NAME: ${{ env.BINARY_NAME }}
-          DOCKER_PLATFORM: ${{ matrix.platform }}
-        run: tools/build-binary.sh
+        run: |
+          docker run --rm \
+            --platform ${{ matrix.platform }} \
+            -v $(pwd):/app \
+            -w /app \
+            -e BINARY_NAME=${{ env.BINARY_NAME }} \
+            php:8.5.4-cli-alpine3.22 sh /app/.github/workflows/build-binary.sh
 
       - name: Upload binary to release
         env:

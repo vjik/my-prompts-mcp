@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  DOCKER_IMAGE: ghcr.io/vjik/my-prompts-mcp-dev
+  DOCKER_IMAGE: my-prompts-mcp-dev
   DOCKER_RUN_PARAMS: --rm -v $(pwd):/app --user $(id -u):$(id -g)
   DOCKER_RUN: run {{.DOCKER_RUN_PARAMS}} {{.DOCKER_IMAGE}}
 
@@ -14,7 +14,14 @@ tasks:
 
   build-binary:
     desc: Build binary file
-    cmd: tools/build-binary.sh
+    cmds:
+      - docker {{.DOCKER_RUN}} box compile
+      - mkdir -p runtime/static-php-cli
+      - docker run {{.DOCKER_RUN_PARAMS}} --workdir=/app/runtime/static-php-cli {{.DOCKER_IMAGE}}
+          spc micro:combine
+          --with-micro=/builder/buildroot/bin/micro.sfx
+          --output=/app/build/my-prompts-mcp
+          /app/build/my-prompts-mcp.phar
 
   build-docker-image:
     desc: Build Docker image
