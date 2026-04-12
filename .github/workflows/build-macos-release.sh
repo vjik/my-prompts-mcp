@@ -15,7 +15,7 @@ ln -s /tmp/build-tools/static-php-cli/bin/spc /usr/local/bin/spc
 
 # Build micro.sfx
 mkdir /tmp/builder && cd /tmp/builder
-spc download php-src,micro --with-php=8.5.4 --for-libs=zlib,libiconv --prefer-pre-built
+spc download php-src,micro --with-php=8.5.4 --for-libs=zlib,libiconv,libxml2 --prefer-pre-built
 spc doctor --auto-fix
 spc build --build-micro 'phar'
 
