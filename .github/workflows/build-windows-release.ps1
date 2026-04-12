@@ -1,5 +1,9 @@
 $ErrorActionPreference = "Stop"
 
+# Disable Windows Defender real-time monitoring to prevent file locking during build
+Add-MpPreference -ExclusionPath $env:GITHUB_WORKSPACE
+Add-MpPreference -ExclusionPath $env:RUNNER_TEMP
+
 $SpcDir = "$env:RUNNER_TEMP\static-php-cli"
 $BuildDir = "$env:RUNNER_TEMP\builder"
 $Box = "$env:RUNNER_TEMP\box.phar"
@@ -7,6 +11,11 @@ $Spc = "$SpcDir\bin\spc"
 
 # Box
 Invoke-WebRequest -Uri "https://github.com/box-project/box/releases/download/4.7.0/box.phar" -OutFile $Box
+
+# Build PHAR
+Set-Location $env:GITHUB_WORKSPACE
+composer install --no-dev --no-plugins --optimize-autoloader
+php $Box compile --no-parallel
 
 # static-php-cli
 git clone https://github.com/crazywhalecc/static-php-cli.git --depth=1 $SpcDir
@@ -19,11 +28,6 @@ Set-Location $BuildDir
 php $Spc download micro --with-php=8.5.4 --for-extensions=phar --prefer-pre-built
 php $Spc doctor --auto-fix
 php $Spc build "phar" --build-micro
-
-# Build PHAR
-Set-Location $env:GITHUB_WORKSPACE
-composer install --no-dev --no-plugins --optimize-autoloader
-php $Box compile --no-parallel
 
 # Combine binary
 New-Item -Path "$env:GITHUB_WORKSPACE\build" -ItemType Directory -Force
