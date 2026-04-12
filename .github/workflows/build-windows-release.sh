@@ -16,7 +16,7 @@ git clone https://github.com/crazywhalecc/static-php-cli.git --depth=1 .
 composer install --no-dev
 
 # Build micro.sfx
-mkdir -p "$BUILDER_DIR"
+mkdir -p "$BUILDER_DIR/source/php-src"
 cd "$BUILDER_DIR"
 "$SPC" download php-src,micro --with-php=8.5.4 --for-libs=zlib --prefer-pre-built
 "$SPC" doctor --auto-fix
