@@ -26,4 +26,4 @@ jobs:
       - name: Upload binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "test-tag" build/my-prompts-mcp#my-prompts-mcp-linux-${{ matrix.arch }}
+        run: gh release upload "untagged-fa79483d0068243a3f25" build/my-prompts-mcp#my-prompts-mcp-linux-${{ matrix.arch }}
