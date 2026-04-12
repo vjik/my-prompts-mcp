@@ -21,7 +21,7 @@ spc build --build-micro 'phar'
 
 # Build PHAR
 cd "$GITHUB_WORKSPACE"
-composer install --no-dev --optimize-autoloader
+composer install --no-dev --no-plugins --optimize-autoloader
 box compile
 
 # Combine binary

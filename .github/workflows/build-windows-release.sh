@@ -24,7 +24,7 @@ cd "$BUILDER_DIR"
 
 # Build PHAR
 cd "$GITHUB_WORKSPACE"
-composer install --no-dev --optimize-autoloader
+composer install --no-dev --no-plugins --optimize-autoloader
 php "$BOX" compile
 
 # Combine binary
