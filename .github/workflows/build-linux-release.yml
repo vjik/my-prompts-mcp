@@ -35,7 +35,7 @@ jobs:
             -v $(pwd):/app \
             -w /app \
             -e BINARY_NAME=${{ env.BINARY_NAME }} \
-            php:8.5.4-cli-alpine3.22 sh /app/.github/workflows/build-binary.sh
+            php:8.5.4-cli-alpine3.22 sh /app/.github/workflows/build-linux-release.sh
 
       - name: Upload binary to release
         env:
