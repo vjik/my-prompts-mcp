@@ -7,10 +7,17 @@ name: build-windows-release
 
 jobs:
   build:
-    name: Build x86_64
-    runs-on: windows-2025
+    name: Build ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
     permissions:
       contents: write
+    strategy:
+      matrix:
+        include:
+          - arch: x86_64
+            runner: windows-2025
+          - arch: arm64
+            runner: windows-11-arm
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -22,14 +29,14 @@ jobs:
           tools: composer
 
       - name: Set a binary name
-        run: echo "BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-windows-x86_64.exe" >> $GITHUB_ENV
+        run: echo "BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-windows-${{ matrix.arch }}.exe" >> $GITHUB_ENV
         shell: bash
 
       - name: Build binary
         env:
           BINARY_NAME: ${{ env.BINARY_NAME }}
-        run: bash .github/workflows/build-windows-release.sh
-        shell: bash
+        run: .github/workflows/build-windows-release.ps1
+        shell: pwsh
 
       - name: Upload binary to release
         env:
