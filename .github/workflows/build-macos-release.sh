@@ -9,7 +9,7 @@ chmod +x /usr/local/bin/box
 mkdir -p /tmp/build-tools/static-php-cli
 cd /tmp/build-tools/static-php-cli
 git clone https://github.com/crazywhalecc/static-php-cli.git --depth=1 .
-composer install
+composer install --no-dev
 chmod +x bin/spc
 ln -s /tmp/build-tools/static-php-cli/bin/spc /usr/local/bin/spc
 

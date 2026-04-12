@@ -20,7 +20,7 @@ RUN curl -Lf -o /usr/local/bin/box "https://github.com/box-project/box/releases/
 RUN mkdir -p /build-tools/static-php-cli \
     && cd /build-tools/static-php-cli \
     && git clone https://github.com/crazywhalecc/static-php-cli.git --depth=1 . \
-    && composer install \
+    && composer install --no-dev \
     && chmod +x bin/spc \
     && ln -s /build-tools/static-php-cli/bin/spc /usr/local/bin/spc
 
