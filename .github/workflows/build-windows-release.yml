@@ -32,6 +32,9 @@ jobs:
         run: echo "BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-windows-${{ matrix.arch }}.exe" >> $GITHUB_ENV
         shell: bash
 
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Build binary
         env:
           BINARY_NAME: ${{ env.BINARY_NAME }}
