@@ -18,7 +18,7 @@ final readonly class Config
         $path = $options['path'] ?? $options['p'] ?? null;
 
         if ($path === null) {
-            fwrite(STDERR, "Usage: php run.php --path=/path/to/dir\n");
+            fwrite(STDERR, "Usage: my-prompts-mcp --path=/path/to/dir\n");
             exit(1);
         }
 
