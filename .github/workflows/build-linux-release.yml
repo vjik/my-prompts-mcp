@@ -33,4 +33,4 @@ jobs:
       - name: Upload binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "${{ github.event.release.tag_name }}" build/${{ env.BINARY_NAME }}
+        run: gh release upload "test-tag" build/${{ env.BINARY_NAME }}
