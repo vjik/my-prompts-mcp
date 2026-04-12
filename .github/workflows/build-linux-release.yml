@@ -1,0 +1,42 @@
+on:
+  release:
+    types: [published]
+
+name: build-linux-release
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        include:
+          - arch: x86_64
+            platform: linux/amd64
+          - arch: arm64
+            platform: linux/arm64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set a binary name
+        run: echo "BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-linux-${{ matrix.arch }}" >> $GITHUB_ENV
+
+      - name: Build binary
+        run: |
+          docker run --rm \
+            --platform ${{ matrix.platform }} \
+            -v $(pwd):/app \
+            -w /app \
+            -e BINARY_NAME=${{ env.BINARY_NAME }} \
+            php:8.5.4-cli-alpine3.22 sh /app/.github/workflows/build-linux-release.sh
+
+      - name: Upload binary to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.event.release.tag_name }}" build/${{ env.BINARY_NAME }} --clobber
