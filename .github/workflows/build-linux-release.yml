@@ -1,4 +1,5 @@
 on:
+  pull_request:
   release:
     types: [published]
 
@@ -7,22 +8,19 @@ name: build-linux-release
 jobs:
   build:
     name: Build ${{ matrix.arch }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     permissions:
       contents: write
     strategy:
       matrix:
         include:
           - arch: x86_64
-            platform: linux/amd64
+            runner: ubuntu-24.04
           - arch: arm64
-            platform: linux/arm64
+            runner: ubuntu-24.04-arm
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
 
       - name: Set a binary name
         run: echo "BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-linux-${{ matrix.arch }}" >> $GITHUB_ENV
@@ -30,7 +28,6 @@ jobs:
       - name: Build binary
         run: |
           docker run --rm \
-            --platform ${{ matrix.platform }} \
             -v $(pwd):/app \
             -w /app \
             -e BINARY_NAME=${{ env.BINARY_NAME }} \
@@ -39,4 +36,4 @@ jobs:
       - name: Upload binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "${{ github.event.release.tag_name }}" build/${{ env.BINARY_NAME }} --clobber
+        run: gh release upload "test-tag" build/${{ env.BINARY_NAME }} --clobber
