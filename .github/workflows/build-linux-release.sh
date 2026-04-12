@@ -26,7 +26,9 @@ spc doctor --auto-fix
 spc build --build-micro 'phar'
 
 # Build PHAR
-cd /app && box compile
+cd /app
+composer install --no-dev --optimize-autoloader
+box compile
 
 # Combine binary
 spc micro:combine \
