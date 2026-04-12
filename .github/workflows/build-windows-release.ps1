@@ -18,7 +18,7 @@ New-Item -Path $BuildDir -ItemType Directory -Force
 Set-Location $BuildDir
 php $Spc download micro --with-php=8.5.4 --for-extensions=phar --prefer-pre-built
 php $Spc doctor --auto-fix
-php $Spc build "phar" --build-micro
+php $Spc build "phar" --build-micro --debug
 
 # Build PHAR
 Set-Location $env:GITHUB_WORKSPACE
