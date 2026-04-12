@@ -1,5 +1,4 @@
 on:
-  pull_request:
   release:
     types: [published]
 
@@ -36,4 +35,4 @@ jobs:
       - name: Upload binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "test-tag" build/${{ env.BINARY_NAME }} --clobber
+        run: gh release upload "${{ github.event.release.tag_name }}" build/${{ env.BINARY_NAME }} --clobber
