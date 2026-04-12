@@ -18,12 +18,12 @@ New-Item -Path $BuildDir -ItemType Directory -Force
 Set-Location $BuildDir
 php $Spc download micro --with-php=8.5.4 --for-extensions=phar --prefer-pre-built
 php $Spc doctor --auto-fix
-php $Spc build "phar" --build-micro --debug
+php $Spc build "phar" --build-micro
 
 # Build PHAR
 Set-Location $env:GITHUB_WORKSPACE
 composer install --no-dev --no-plugins --optimize-autoloader
-php $Box compile
+php $Box compile --no-parallel
 
 # Combine binary
 New-Item -Path "$env:GITHUB_WORKSPACE\build" -ItemType Directory -Force
