@@ -25,7 +25,13 @@ jobs:
       - name: Build binary
         run: tools/build-binary.sh
 
+      - name: Rename binary
+        run: |
+          BINARY_NAME=my-prompts-mcp-${{ github.event.release.tag_name }}-linux-${{ matrix.arch }}
+          mv build/my-prompts-mcp build/$BINARY_NAME
+          echo "BINARY_NAME=$BINARY_NAME" >> $GITHUB_ENV
+
       - name: Upload binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "test-tag" build/my-prompts-mcp#my-prompts-mcp-${{ github.event.release.tag_name }}-linux-${{ matrix.arch }}
+        run: gh release upload "test-tag" build/${{ env.BINARY_NAME }}
