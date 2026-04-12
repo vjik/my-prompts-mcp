@@ -3,7 +3,8 @@ set -eu
 
 IMAGE=${DOCKER_IMAGE:-ghcr.io/vjik/my-prompts-mcp-dev:latest}
 ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
-DOCKER_RUN_PARAMS="--rm -v $ROOT_DIR:/app --user $(id -u):$(id -g)"
+PLATFORM_PARAM=${DOCKER_PLATFORM:+--platform $DOCKER_PLATFORM}
+DOCKER_RUN_PARAMS="--rm -v $ROOT_DIR:/app --user $(id -u):$(id -g) $PLATFORM_PARAM"
 BINARY_NAME=${BINARY_NAME:-my-prompts-mcp}
 
 docker run $DOCKER_RUN_PARAMS $IMAGE box compile
