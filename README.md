@@ -48,7 +48,7 @@ Add the following to your MCP client configuration (stdio transport):
 ```json
 {
   "mcpServers": {
-    "my-prompts": {
+    "my-prompts-mcp": {
       "command": "/path/to/my-prompts-mcp",
       "args": ["--path=/path/to/prompts"]
     }
