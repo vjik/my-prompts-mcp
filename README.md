@@ -1,5 +1,7 @@
 # My Prompts MCP
 
+![GitHub Release](https://img.shields.io/github/v/release/vjik/my-prompts-mcp)
+
 Lightweight MCP server that serves user prompts defined in Markdown files, with support for arguments.
 
 Keep your prompt `.md` files in a repository — a dedicated git repo or a folder in an existing one — 
