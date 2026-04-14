@@ -26,19 +26,21 @@
     ],
     "require": {
         "php": "^8.5",
-        "logiscape/mcp-sdk-php": "^1.6.0",
+        "mcp/sdk": "dev-main#7af5a345c15d62ab21731b4fb2171740a9152292",
         "spatie/yaml-front-matter": "^2.1.1"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.9.1",
         "buggregator/trap": "^1.15.2",
-        "phpstan/phpstan": "^2.1.46"
+        "phpstan/phpstan": "^2.1.47"
     },
     "autoload": {
         "psr-4": {
             "Vjik\\MyPromptsMcp\\": "src/"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true,

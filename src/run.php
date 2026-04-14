@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Vjik\MyPromptsMcp\Config;
 use Vjik\MyPromptsMcp\PromptsProvider;
-use Vjik\MyPromptsMcp\Runner\Runner;
+use Vjik\MyPromptsMcp\Mcp\Runner;
 
 require __DIR__ . '/../vendor/autoload.php';
 

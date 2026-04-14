@@ -22,4 +22,16 @@ final readonly class Prompt
         public string $content,
         public array $arguments,
     ) {}
+
+    /**
+     * @param array<string, string> $arguments
+     */
+    public function handle(array $arguments): string
+    {
+        $pairs = [];
+        foreach ($this->arguments as $argument) {
+            $pairs['{{' . $argument->name . '}}'] = $arguments[$argument->name] ?? '';
+        }
+        return $pairs === [] ? $this->content : strtr($this->content, $pairs);
+    }
 }
