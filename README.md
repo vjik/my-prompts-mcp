@@ -120,37 +120,41 @@ Each argument field:
 | `description` | string  | No       | Description of the argument.                           |
 | `required`    | boolean | No       | Whether the argument is required. Defaults to `false`. |
 
+> [!IMPORTANT]
+> Prompts without arguments or with one argument are supported by almost all MCP clients. Prompts with
+> two or more arguments are not universally supported. Known clients that do support multiple arguments:
+> - [Cherry Studio](https://cherry-ai.com/),
+> - [Claude Desktop](https://claude.com/download).
+
 ### Placeholders
 
 Use `{{arg_name}}` in the prompt body. Placeholders are substituted with the argument values provided at request time.
-
-### Client compatibility
-
-Not all MCP clients support prompts with multiple arguments. Known clients that do: **Cherry Studio**, 
-**Claude Desktop**.
 
 ### Example prompt file
 
 ```markdown
 ---
-name: code-review
-title: Code Review
-description: Review code for bugs, style issues, and improvements
+name: name-generator
+title: Name Generator
+description: Generate a name for a product, project, or company
 arguments:
-  - name: language
-    description: Programming language
+  - name: description
+    description: What needs to be named (product, project, company, etc.)
     required: true
-  - name: focus
-    description: Area to focus on (e.g. security, performance, readability)
+  - name: style
+    description: Naming style (e.g. minimalist, creative, technical, playful)
     required: false
 ---
-Review the following {{language}} code. Identify bugs, suggest improvements,
-and check for best practices. Focus area: {{focus}}.
+Generate 10 name ideas for: {{description}}.
 
-Provide feedback in this format:
-- **Bugs**: list any bugs or errors found
-- **Improvements**: concrete suggestions with examples
-- **Summary**: overall assessment
+{{style}}
+
+Requirements for the names:
+- Easy to remember and pronounce
+- Suitable for use as a domain name
+- Unique and distinctive
+
+For each name provide a one-line explanation of why it works.
 ```
 
 ## License
