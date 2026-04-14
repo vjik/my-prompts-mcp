@@ -6,6 +6,10 @@ Keep your prompt `.md` files in a repository — a dedicated git repo or a folde
 and connect that directory to your AI client via this MCP server. This way your prompts are versioned,
 shareable, and easy to update across machines and team members.
 
+_Example of My Prompts MCP usage with [Cherry Studio](https://cherry-ai.com/):_
+
+https://github.com/user-attachments/assets/32dfa36d-657f-4b9b-8086-c7a00ffe3185
+
 > [!IMPORTANT]
 > This project is developed and maintained by [Sergei Predvoditelev](https://github.com/vjik).
 > Community support helps keep the project actively developed and well maintained.
