@@ -36,4 +36,8 @@ RUN mkdir /builder \
     && spc doctor --auto-fix \
     && spc build --build-micro "phar"
 
+# mcpunit
+RUN curl -Lo /tmp/mcpunit.tar.gz https://github.com/lee-to/mcpunit/releases/download/v1.3.0/mcpunit-x86_64-unknown-linux-musl.tar.gz \
+    && tar -xzf /tmp/mcpunit.tar.gz -C /usr/local/bin mcpunit
+
 WORKDIR /app

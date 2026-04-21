@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    paths: &paths
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/mcpunit.yml'
+      - 'composer.json'
+      - 'box.json'
+
+  push:
+    branches: [ 'master' ]
+    paths: *paths
+
+name: mcpunit
+
+jobs:
+  quality:
+    name: Quality Audit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build binary
+        run: |
+          docker run --rm \
+            -v $(pwd):/app \
+            -w /app \
+            -e BINARY_NAME=my-prompts-mcp \
+            php:8.5.4-cli-alpine3.22 sh /app/.github/workflows/build-linux-release.sh
+
+      - name: Run mcpunit
+        uses: lee-to/mcpunit@v1
+        with:
+          cmd: ./src/my-prompts-mcp --path=./tests/prompts
+          min-score: "100"

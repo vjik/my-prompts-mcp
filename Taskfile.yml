@@ -2,7 +2,7 @@ version: '3'
 
 vars:
   DOCKER_IMAGE: my-prompts-mcp-dev
-  DOCKER_RUN_PARAMS: --rm -v $(pwd):/app --user $(id -u):$(id -g)
+  DOCKER_RUN_PARAMS: --rm --init -v $(pwd):/app --user $(id -u):$(id -g)
   DOCKER_RUN: run {{.DOCKER_RUN_PARAMS}} {{.DOCKER_IMAGE}}
 
 tasks:
@@ -34,6 +34,10 @@ tasks:
   lint-dockerfile:
     desc: Lint Dockerfile
     cmd: docker run --rm -i hadolint/hadolint < Dockerfile
+
+  mcpunit:
+    desc: Run mcpunit
+    cmd: docker {{.DOCKER_RUN}} mcpunit test --cmd /app/build/my-prompts-mcp --path=/app/tests/prompts
 
   cs-fix:
     desc: Run PHP CS Fixer
