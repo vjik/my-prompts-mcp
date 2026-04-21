@@ -34,5 +34,5 @@ jobs:
       - name: Run mcpunit
         uses: lee-to/mcpunit@v1
         with:
-          cmd: ./src/my-prompts-mcp --path=./tests/prompts
+          cmd: ./build/my-prompts-mcp --path=./tests/prompts
           min-score: "100"
